@@ -1,0 +1,23 @@
+{
+  "name": "pinball-missions",
+  "version": "0.1.0",
+  "private": true,
+  "description": "In-game objectives for pinball players, generated from pinballrulesheets.com rulesheets.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "scrape": "node scripts/scrape.js",
+    "extract": "node --env-file-if-exists=.env scripts/extract.js",
+    "export": "node scripts/export.js",
+    "update": "npm run scrape && npm run extract && npm run export",
+    "dev": "node scripts/dev.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
+    "cheerio": "^1.2.0",
+    "turndown": "^7.2.4",
+    "zod": "^4.6.7"
+  }
+}

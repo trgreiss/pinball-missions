@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About | Pinball Missions</title>
+  <meta name="description" content="About Pinball Missions and where its objectives come from.">
+  <script>try{if(localStorage.getItem('pinball-missions.theme')!=='light')document.documentElement.classList.add('dark-mode')}catch(e){document.documentElement.classList.add('dark-mode')}</script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="header_wrap" class="outer">
+    <header class="inner">
+      <button type="button" id="dark-mode-toggle" aria-label="Toggle dark mode">☀</button>
+      <h1 id="project_title"><a href="/">Pinball Missions</a></h1>
+      <h2 id="project_tagline">Objectives for the machines in front of you</h2>
+    </header>
+  </div>
+  <div id="nav_wrap" class="outer">
+    <nav class="inner">
+      <a href="/">Missions</a>
+      <a href="/machines">Machines</a>
+      <a href="/about" aria-current="page">About</a>
+    </nav>
+  </div>
+
+  <div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+      <h1 id="top">About Pinball Missions</h1>
+      <p>When you're still learning a machine's layout and code, it's hard to get deep into the rules. Pinball Missions gives each game a focus: start a particular mode, light a jackpot, chase a wizard mode.</p>
+
+      <h2 id="where-objectives-come-from">Where objectives come from</h2>
+      <ul>
+        <li>Every objective is derived from that machine's rulesheet on <a href="https://pinballrulesheets.com/">pinballrulesheets.com</a>, the community wiki that continues the TiltForums rulesheets.</li>
+        <li>Rulesheets are imported into a database a few times a year, when new machines or major code updates come out. They are not fetched live.</li>
+        <li>Objectives were drafted automatically from the rulesheet text. If one doesn't match the game in front of you (code updates change rules), follow its rulesheet link and trust the rulesheet.</li>
+      </ul>
+      <p class="small muted" id="data-date"></p>
+
+      <h2 id="questlines">Questlines</h2>
+      <p>Rules in modern games build on each other, so objectives are organized as <strong>questlines</strong>: ordered chains that follow the rulesheet's own progression. For example, Godzilla's Mechagodzilla Multiball questline:</p>
+      <ol>
+        <li>Bring Mechagodzilla online</li>
+        <li>Disable the Neo Barrier</li>
+        <li>Start Mechagodzilla Multiball</li>
+        <li>Collect jackpots to light the super jackpot</li>
+        <li>Score the super jackpot</li>
+        <li>Light and start Terror of Mechagodzilla (mini-wizard mode)</li>
+      </ol>
+      <p>Missions show the whole chain, because you can't pause mid-game to check what's next. Your progress carries over: choose <em>Continue ones I've started</em> to pick up where you left off.</p>
+
+      <h2 id="models">Pro, Premium and LE</h2>
+      <p>Some steps exist only on one model of a machine. Set each machine's model on the <a href="/machines#machine-list">Machines</a> page (Pinball Map imports fill it in when the venue lists it) and steps for other models are hidden. Until you do, every step shows, with a tag on the model-specific ones.</p>
+
+      <h2 id="your-data">Your data</h2>
+      <p>Your locations and completed objectives are saved in this browser only. Use <a href="/machines#progress">Download backup</a> to move them to another device.</p>
+
+      <h2 id="credits">Credits</h2>
+      <ul>
+        <li>Rulesheets: the writers credited on each <a href="https://pinballrulesheets.com/rulesheet-master-list">pinballrulesheets.com</a> page.</li>
+        <li>Venue lineups: <a href="https://pinballmap.com/">Pinball Map</a>, licensed CC BY-SA 4.0.</li>
+      </ul>
+      <p class="return-top"><a href="#top">Return to top</a></p>
+    </section>
+  </div>
+
+  <div id="footer_wrap" class="outer">
+    <footer class="inner">
+      <p>Objectives are derived from the community rulesheets at <a href="https://pinballrulesheets.com/">pinballrulesheets.com</a>.</p>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { loadData } from '/js/common.js';
+    const { generated, machines } = await loadData();
+    document.getElementById('data-date').textContent =
+      `Database: ${machines.length} machines, last updated ${new Date(generated).toLocaleDateString()}.`;
+  </script>
+</body>
+</html>

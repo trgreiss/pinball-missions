@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mission Generator | Pinball Missions</title>
+  <meta name="description" content="Focused in-game objectives for the pinball machines at your location, drawn from community rulesheets.">
+  <script>try{if(localStorage.getItem('pinball-missions.theme')!=='light')document.documentElement.classList.add('dark-mode')}catch(e){document.documentElement.classList.add('dark-mode')}</script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="header_wrap" class="outer">
+    <header class="inner">
+      <button type="button" id="dark-mode-toggle" aria-label="Toggle dark mode">☀</button>
+      <h1 id="project_title"><a href="/">Pinball Missions</a></h1>
+      <h2 id="project_tagline">Objectives for the machines in front of you</h2>
+    </header>
+  </div>
+  <div id="nav_wrap" class="outer">
+    <nav class="inner">
+      <a href="/" aria-current="page">Missions</a>
+      <a href="/machines">Machines</a>
+      <a href="/about">About</a>
+    </nav>
+  </div>
+
+  <div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+      <h1 id="top">Mission Generator</h1>
+
+      <div id="setup-needed" hidden>
+        <p class="notice">First, tell us which machines are at your location: <a href="/machines">set up your machines</a>.</p>
+      </div>
+
+      <form id="mission-form" hidden>
+        <ul class="options">
+          <li>
+            <label class="label" for="location">Location</label>
+            <select id="location"></select>
+            <a class="small" href="/machines">edit</a>
+          </li>
+          <li>
+            <label class="label" for="preference">Questlines</label>
+            <select id="preference">
+              <option value="continue">Continue ones I've started</option>
+              <option value="new">Start new ones</option>
+              <option value="any">Either</option>
+            </select>
+          </li>
+          <li>
+            <label class="label" for="count">Machines</label>
+            <select id="count"></select>
+          </li>
+        </ul>
+        <div class="actions">
+          <button type="submit" id="generate">Generate mission</button>
+        </div>
+      </form>
+
+      <div id="mission"></div>
+
+      <h2 id="how-it-works">How it works</h2>
+      <ul>
+        <li>Pick the machines at your location on the <a href="/machines">Machines</a> page (or import them from Pinball Map).</li>
+        <li>Generate a mission: one <strong>questline</strong> per machine. A questline is an ordered chain of goals from that machine's rulesheet, e.g. qualify a multiball → start it → collect jackpots → score the super jackpot → reach the mini-wizard mode.</li>
+        <li>Read the whole questline before you plunge. You can't pause mid-game, so keep in mind what comes after each step.</li>
+        <li>Check off each step you reach. Your next mission picks up where you left off. Switch to any other questline for a machine with its dropdown.</li>
+        <li>Follow the <em>rulesheet</em> link on any step for the full details.</li>
+      </ul>
+      <p class="return-top"><a href="#top">Return to top</a></p>
+    </section>
+  </div>
+
+  <div id="footer_wrap" class="outer">
+    <footer class="inner">
+      <p>Objectives are derived from the community rulesheets at <a href="https://pinballrulesheets.com/">pinballrulesheets.com</a>, originally written by members of TiltForums. Always check the rulesheet, since code updates change rules.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="/js/missions.js"></script>
+</body>
+</html>

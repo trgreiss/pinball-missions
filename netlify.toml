@@ -1,0 +1,5 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+  # The data bundle is committed, so no build step is needed on deploy.
+  command = ""

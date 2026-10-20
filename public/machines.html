@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Machines | Pinball Missions</title>
+  <meta name="description" content="Choose the pinball machines available at your location.">
+  <script>try{if(localStorage.getItem('pinball-missions.theme')!=='light')document.documentElement.classList.add('dark-mode')}catch(e){document.documentElement.classList.add('dark-mode')}</script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="header_wrap" class="outer">
+    <header class="inner">
+      <button type="button" id="dark-mode-toggle" aria-label="Toggle dark mode">☀</button>
+      <h1 id="project_title"><a href="/">Pinball Missions</a></h1>
+      <h2 id="project_tagline">Objectives for the machines in front of you</h2>
+    </header>
+  </div>
+  <div id="nav_wrap" class="outer">
+    <nav class="inner">
+      <a href="/">Missions</a>
+      <a href="/machines" aria-current="page">Machines</a>
+      <a href="/about">About</a>
+    </nav>
+  </div>
+
+  <div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+      <h1 id="top">Machines at Your Location</h1>
+
+      <ul>
+        <li><a href="#locations">Locations</a></li>
+        <li><a href="#pinball-map">Import from Pinball Map</a></li>
+        <li><a href="#machine-list">Machine list</a></li>
+        <li><a href="#progress">Your progress</a></li>
+      </ul>
+
+      <h2 id="locations">Locations</h2>
+      <p>Save the lineup for each place you play (your local bar, an arcade, home). Missions only use machines from the location you pick.</p>
+      <div class="actions" id="location-bar"></div>
+
+      <h2 id="pinball-map">Import from Pinball Map</h2>
+      <p>Search for a venue on <a href="https://pinballmap.com/" target="_blank" rel="noopener">Pinball Map</a> to check off its machines automatically.</p>
+      <form class="actions" id="pm-form">
+        <input type="search" id="pm-query" placeholder="Venue name, e.g. Ground Kontrol" minlength="2" maxlength="80" required>
+        <button type="submit">Search</button>
+      </form>
+      <div id="pm-output"></div>
+
+      <h2 id="machine-list">Machine list</h2>
+      <div class="actions">
+        <input type="search" id="filter" placeholder="Filter machines…" aria-label="Filter machines">
+        <span class="small muted" id="selected-count"></span>
+      </div>
+      <div id="machines"></div>
+
+      <h2 id="progress">Your progress</h2>
+      <p id="progress-summary" class="muted"></p>
+      <p class="small">Progress and locations are stored in this browser only. Back them up to move to another device.</p>
+      <div class="actions">
+        <button type="button" id="export-progress">Download backup</button>
+        <label class="button" for="import-progress">Restore backup</label>
+        <input type="file" id="import-progress" accept="application/json,.json" hidden>
+      </div>
+      <p class="return-top"><a href="#top">Return to top</a></p>
+    </section>
+  </div>
+
+  <div id="footer_wrap" class="outer">
+    <footer class="inner">
+      <p>Machine list from the <a href="https://pinballrulesheets.com/rulesheet-master-list">pinballrulesheets.com master list</a>. Venue data from <a href="https://pinballmap.com/">Pinball Map</a> (CC BY-SA 4.0).</p>
+    </footer>
+  </div>
+
+  <script type="module" src="/js/machines.js"></script>
+</body>
+</html>
