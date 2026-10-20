@@ -204,6 +204,52 @@ function normalize(name) {
 
 const index = data.machines.map((m) => ({ machine: m, key: normalize(m.name) }));
 
+// Pinball Map and the rulesheet master list spell manufacturers differently
+// ("Jersey Jack" vs "Jersey Jack Pinball", "Pinball Brothers" vs "Heighway Pinball/Pinball Brothers"),
+// so both are reduced to a family key. Bally/Midway share Williams's lineage; Premier is Gottlieb's.
+const MAKER_FAMILIES = [
+  ['jjp', /jersey jack|\bjjp\b/],
+  ['brothers', /heighway|pinball brothers/],
+  ['williams', /williams|bally|midway|\bwms\b/],
+  ['gottlieb', /gottlieb|premier/],
+  ['american', /american pinball/],
+  ['chicago', /chicago gaming|\bcgc\b/],
+  ['barrels', /barrels of fun/],
+  ['data east', /data east/],
+  ['stern', /\bstern\b/],
+  ['spooky', /spooky/],
+  ['multimorphic', /multimorphic/],
+  ['capcom', /capcom/],
+];
+
+function makerKey(name) {
+  const n = (name ?? '').toLowerCase();
+  if (!n.trim()) return null;
+  // Unlisted makers (Chicago Coin, Atari, …) get their own key, so they can't collide with a family above.
+  return MAKER_FAMILIES.find(([, re]) => re.test(n))?.[0] ?? `other:${n.replace(/[^a-z0-9]+/g, ' ').trim()}`;
+}
+
+const releaseYear = (machine) => Number(machine.released?.match(/\d{4}/)?.[0]) || null;
+
+/** Unknown on either side counts as compatible; only a contradiction rejects. */
+function sameMaker(pm, machine) {
+  const a = makerKey(pm.manufacturer);
+  const b = makerKey(machine.manufacturer);
+  return !a || !b || a === b;
+}
+
+/**
+ * A machine can't predate the game it's matched to, so an earlier year means an older, different
+ * game (Stern's 2006 Pirates vs JJP's 2018). Later years are allowed: same-maker reissues and
+ * special editions (Godzilla 70th Anniversary, Spider-Man Vault Edition) run the original's rules.
+ * One year of slack covers Pinball Map's year vs the master list's release month.
+ */
+function closeYear(pm, machine) {
+  const a = Number(pm.year) || null;
+  const b = releaseYear(machine);
+  return !a || !b || a >= b - 1;
+}
+
 function matchMachine(pm) {
   const key = normalize(pm.name);
   if (!key) return null;
@@ -216,13 +262,11 @@ function matchMachine(pm) {
       return a.startsWith(b + ' ') && b.split(' ').length >= 2;
     });
   }
-  if (candidates.length > 1 && pm.manufacturer) {
-    const maker = pm.manufacturer.toLowerCase().split(' ')[0];
-    const byMaker = candidates.filter((x) => x.machine.manufacturer.toLowerCase().includes(maker));
-    if (byMaker.length) candidates = byMaker;
-  }
+  // Same title is not the same game: Pirates of the Caribbean is both Stern 2006 and JJP 2018.
+  // Drop any candidate whose manufacturer contradicts Pinball Map, or that was released after it.
+  candidates = candidates.filter((x) => sameMaker(pm, x.machine) && closeYear(pm, x.machine));
   if (candidates.length > 1 && pm.year) {
-    const byYear = candidates.filter((x) => x.machine.released?.includes(String(pm.year)));
+    const byYear = candidates.filter((x) => releaseYear(x.machine) === Number(pm.year));
     if (byYear.length) candidates = byYear;
   }
   if (candidates.length > 1) {
